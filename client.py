@@ -12,7 +12,7 @@ username = raw_input ("Enter username: ")
 turn = -1
 appe = 0
 mess = ''
-scroce = 0
+score = 0
 
 color = 0
 allow_color = True
@@ -27,7 +27,7 @@ except: pass
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 def get_messages():
-    global sock, username, color, mess, turn, appe, scroce, game
+    global sock, username, color, mess, turn, appe, score, game
     while True:
         data = None
         try:
@@ -44,8 +44,8 @@ def get_messages():
                     #print incorrect
                     if (message['username'] == username):
                         #mess = message['message']
-                        scroce += 100*incorrect
-                        print "scroce: ", scroce
+                        score += 100*incorrect
+                        print "score: ", score
                         
                     
                     elif (message['username'] == "init"):
@@ -67,12 +67,20 @@ def get_messages():
 
 
                 if (message['message'] == username + " get the bonus point"):
-                        scroce += 500
-                        print "scroce: ", scroce
+                        score += 500
+                        print "score: ", score
 
                 if (message['message'] == "Game over"):
-                        message = { "username" : username, "message" : "the scroce", "scroce" : scroce }
+                        message = { "username" : username, "message" : "the score", "score" : score }
                         sock.sendto( json.dumps(message), (server_ip, int(server_port)) )
+
+                '''
+                elif (message['message'].endswith("win the game")):
+                    message = { "username" : username, "message" : "/goodbye", "color" : color  }
+                    sock.sendto( json.dumps(message), (server_ip, int(server_port)) )
+                    sys.exit(0)
+                '''
+
                 
                 '''
                 if(message['username']):

@@ -6,7 +6,7 @@ import time
 import random
 import re
 
-UDP_IP= "localhost"
+UDP_IP= ""
 UDP_PORT=5020
 guesses = ''
 game = 0
@@ -101,14 +101,13 @@ while True:
 
           broadcast( json.dumps(outjson) )
 
-        elif ( message['message'] == "the scroce" ):
-          my_dict[message['username']] = message['scroce']
+        elif ( message['message'] == "the score" ):
+          my_dict[message['username']] = message['score']
 
           print(my_dict)
           game += 1
           print game
           if (game == len(clients)+1):
-            print "ok"
             mas = max(my_dict.keys(), key=lambda x: my_dict[x])
             print mas
             #print [k for (k, v) in my_dict.items() if v == mas][0]
@@ -116,6 +115,7 @@ while True:
             outjson = {"username" : "server",\
               "message" : win }
             broadcast( json.dumps(outjson) )
+            sys.exit(0)
 
 
   
