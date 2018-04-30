@@ -71,7 +71,7 @@ def get_messages():
                         print "scroce: ", scroce
 
                 if (message['message'] == "Game over"):
-                        message = { "username" : username, "message" : "the scroce ", "scroce" : scroce  }
+                        message = { "username" : username, "message" : "the scroce", "scroce" : scroce }
                         sock.sendto( json.dumps(message), (server_ip, int(server_port)) )
                 
                 '''

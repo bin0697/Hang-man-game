@@ -10,7 +10,7 @@ UDP_IP= "localhost"
 UDP_PORT=5020
 guesses = ''
 game = 0
-
+my_dict = {}
 rand_line = random.choice(open('words.txt').readlines())
 
 reg = re.compile('(.+)(\t)(.+)')
@@ -100,6 +100,24 @@ while True:
             "color" : message['color'] } 
 
           broadcast( json.dumps(outjson) )
+
+        elif ( message['message'] == "the scroce" ):
+          my_dict[message['username']] = message['scroce']
+
+          print(my_dict)
+          game += 1
+          print game
+          if (game == len(clients)+1):
+            print "ok"
+            mas = max(my_dict.keys(), key=lambda x: my_dict[x])
+            print mas
+            #print [k for (k, v) in my_dict.items() if v == mas][0]
+            win = mas + " win the game"
+            outjson = {"username" : "server",\
+              "message" : win }
+            broadcast( json.dumps(outjson) )
+
+
   
         elif (message['message'] == "start" and game == 0):
           game = 1
